@@ -38,7 +38,7 @@ def predict(numeric_features, test_label, t1, t2, t3, t4, gbdt_model, language_m
     gbdt_test_pre = gbdt_model.predict(lgb_test, num_iteration=gbdt_model.best_iteration)
     lm_test_pre = language_model(t1, t2, t3, t4)
     lm_test_pre.numpy().reshape(lgb_test.shape)
-    pred = round((gbdt_test_pre + lm_test_pre) / 2)  # 投票法 简单平均
+    pred = round((gbdt_test_pre + lm_test_pre) / 2)  
     result = pd.DataFrame(pred)
     result.columns = ['pred_results']
     result = pd.concat([result, test_label], axis=1)
