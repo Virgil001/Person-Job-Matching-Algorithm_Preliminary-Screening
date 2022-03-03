@@ -54,7 +54,6 @@ def train_gbdt():
                 smalltestresults.append(temp)
             testresults.append(smalltestresults)
 
-            # 对每次交叉验证的验证集进行 0 ，1 化，然后评估f1值
             results = []
             for pred in vaild_preds:
                 result = 1 if pred > threshold else 0
@@ -64,15 +63,7 @@ def train_gbdt():
         print('---N折交叉验证分数---')
         print(np.average(c))
 
-    # 模型保存
     joblib.dump(gbm, "./gbdt_model.pkl")
-
-# # 模型加载
-# clf = joblib.load('dota_model.pkl')
-
-# print(load_model.predict(test_x))
-
-# 待调参
 
 
 if __name__ == "__main__":
