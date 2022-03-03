@@ -46,10 +46,10 @@ class Word_Level_Embedding(nn.Module):
                         vocabs.append(word)
                         embedding = np.append(embedding, w2v_model[word])
                 embedding_matrix = embedding.reshape(len(vocabs),
-                                                     self.emb_dim)  # shape: (seq_length，300)
+                                                     self.emb_dim)  
                 embedding_matrix = matrix_padding(embedding_matrix)
                 embedding_matrix = torch.tensor(embedding_matrix)
-                embedding_tensor = embedding_matrix.unsqueeze(1)  # 在第1维进行升维 batch维度
+                embedding_tensor = embedding_matrix.unsqueeze(1) 
                 return embedding_tensor
 
             for k in range(batch):
@@ -116,19 +116,16 @@ class BiLSTMAttention(nn.Module):
         m3 = self.tanh1(h3)
         m4 = self.tanh1(h4)
 
-        # 张量广播操作
         alpha1 = F.softmax(torch.matmul(m1, self.w1), dim=1)  # (batch_size, seq_len, 1)
         alpha2 = F.softmax(torch.matmul(m2, self.w2), dim=1)
         alpha3 = F.softmax(torch.matmul(m3, self.w3), dim=1)
         alpha4 = F.softmax(torch.matmul(m4, self.w4), dim=1)
 
-        # 张量元素相乘，会发生张量广播使得张量的维度满足条件
         out1 = h1 * alpha1  # (batch_size, seq_len, hidden_size * 2)
         out2 = h2 * alpha2
         out3 = h3 * alpha3
         out4 = h4 * alpha4
-
-        # torch.sum操作默认情况下不保持维度
+        
         out1 = torch.sum(out1, 1)  # (batch_size,hidden_size * 2)
         out2 = torch.sum(out2, 1)
         out3 = torch.sum(out3, 1)
@@ -139,8 +136,6 @@ class BiLSTMAttention(nn.Module):
         out3 = self.tanh2(out3)
         out4 = self.tanh2(out4)
 
-        # 张量相加
-        # out = torch.cat((out1, out2, out3, out4), 1)
         out = out1 + out2 + out3 + out4
 
         out = self.fc(out)  # (batch_size,num_classes)
