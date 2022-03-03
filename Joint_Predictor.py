@@ -53,7 +53,6 @@ def joint_predictor():
     with torch.no_grad():
         gbdt_model = joblib.load(GBDT_MODEL_SAVE_PATH)
         language_model = torch.load(LANGUAGE_MODEL_SAVE_PATH)
-        language_model()
         predict(numeric_features, test_label, t1, t2, t3, t4, gbdt_model, language_model, OUTPUT_PATH)
 
     print("Evaluation done! Result has saved to: ", OUTPUT_PATH)
