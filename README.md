@@ -2,4 +2,4 @@
 
 ## Usage
 
-Please run run.sh in Terminal.
+Please run *run.sh* in Terminal.
