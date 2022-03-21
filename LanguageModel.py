@@ -161,7 +161,7 @@ def train_LM(config):
     model = BiLSTMAttention(config)
     param_groups = model.parameters()
 
-    optimizer = optim.ASGD(param_groups)  # adagrad(param_groups)    # (param_groups)  # SGD(param_groups, lr=0.01, weight_decay=0.001)  # AdamW(param_groups, eps=1e-6, weight_decay=0.001)
+    optimizer = optim.AdamW(param_groups, eps=1e-6, weight_decay=0.001)
 
     total_num, _, train_label, jobduty, jobreq, workexp, projexp = ds.MyDataSet()
     steps = ds.get_steps_per_epoch(total_num, BATCH_SIZE)
